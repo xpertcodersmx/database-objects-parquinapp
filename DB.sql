@@ -8,28 +8,28 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema parkinapp
+-- Schema parquindb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema parkinapp
+-- Schema parquindb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `parkinapp` DEFAULT CHARACTER SET utf8 ;
-USE `parkinapp` ;
+CREATE SCHEMA IF NOT EXISTS `parquindb` DEFAULT CHARACTER SET utf8 ;
+USE `parquindb` ;
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PROFILES`
+-- Table `parquindb`.`PROFILES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PROFILES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PROFILES` (
   `profile` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`profile`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`USERS`
+-- Table `parquindb`.`USERS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`USERS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`USERS` (
   `uid` VARCHAR(25) NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `lastName` VARCHAR(50) NOT NULL,
@@ -40,16 +40,16 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`USERS` (
   INDEX `fk_USERS_PROFILES_idx` (`profile` ASC),
   CONSTRAINT `fk_USERS_PROFILES`
     FOREIGN KEY (`profile`)
-    REFERENCES `parkinapp`.`PROFILES` (`profile`)
+    REFERENCES `parquindb`.`PROFILES` (`profile`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`STATUS`
+-- Table `parquindb`.`STATUS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`STATUS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`STATUS` (
   `status` VARCHAR(4) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(100) NOT NULL,
@@ -58,18 +58,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`TYPE_OF_PARKINGS`
+-- Table `parquindb`.`TYPE_OF_PARKINGS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`TYPE_OF_PARKINGS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`TYPE_OF_PARKINGS` (
   `typeOfParking` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`typeOfParking`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PARKINGS`
+-- Table `parquindb`.`PARKINGS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PARKINGS` (
   `idParking` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `status` VARCHAR(4) NOT NULL,
@@ -86,34 +86,34 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS` (
   INDEX `fk_PARKINGS_TYPE_OF_PARKINGS1_idx` (`typeOfParking` ASC),
   CONSTRAINT `fk_PARKINGS_STATUS1`
     FOREIGN KEY (`status`)
-    REFERENCES `parkinapp`.`STATUS` (`status`)
+    REFERENCES `parquindb`.`STATUS` (`status`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PARKINGS_USERS1`
     FOREIGN KEY (`owner`)
-    REFERENCES `parkinapp`.`USERS` (`uid`)
+    REFERENCES `parquindb`.`USERS` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PARKINGS_TYPE_OF_PARKINGS1`
     FOREIGN KEY (`typeOfParking`)
-    REFERENCES `parkinapp`.`TYPE_OF_PARKINGS` (`typeOfParking`)
+    REFERENCES `parquindb`.`TYPE_OF_PARKINGS` (`typeOfParking`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`IMAGES`
+-- Table `parquindb`.`IMAGES`
 -- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `parkinapp`.`IMAGES` (
+-- CREATE TABLE IF NOT EXISTS `parquindb`.`IMAGES` (
 -- )
 -- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`COORDINATES`
+-- Table `parquindb`.`COORDINATES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`COORDINATES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`COORDINATES` (
   `idCoordinate` INT NOT NULL,
   `latitude` DECIMAL(18,15) NOT NULL,
   `longitude` DECIMAL(18,15) NOT NULL,
@@ -121,16 +121,16 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`COORDINATES` (
   PRIMARY KEY (`idCoordinate`),
   CONSTRAINT `fk_COORDINATES_PARKINGS1`
     FOREIGN KEY (`idCoordinate`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`ADDRESSES`
+-- Table `parquindb`.`ADDRESSES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`ADDRESSES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`ADDRESSES` (
   `idAddress` INT NOT NULL,
   `line1` VARCHAR(45) NOT NULL,
   `line2` VARCHAR(45) NULL,
@@ -143,16 +143,16 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`ADDRESSES` (
   PRIMARY KEY (`idAddress`),
   CONSTRAINT `fk_ADDRESSES_PARKINGS1`
     FOREIGN KEY (`idAddress`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PRICES`
+-- Table `parquindb`.`PRICES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PRICES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PRICES` (
   `idPrice` INT NOT NULL,
   `isFixed` TINYINT(1) NOT NULL DEFAULT 0,
   `hasDifferentFees` TINYINT(1) NOT NULL DEFAULT 0,
@@ -167,9 +167,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`TICKETS`
+-- Table `parquindb`.`TICKETS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`TICKETS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`TICKETS` (
   `idTicket` INT NOT NULL,
   `idParking` INT NOT NULL,
   `arrivalDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -185,21 +185,21 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`TICKETS` (
   INDEX `fk_TICKETS_PARKINGS1_idx` (`idParking` ASC),
   CONSTRAINT `fk_TICKETS_PRICES1`
     FOREIGN KEY (`idPrice`)
-    REFERENCES `parkinapp`.`PRICES` (`idPrice`)
+    REFERENCES `parquindb`.`PRICES` (`idPrice`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_TICKETS_PARKINGS1`
     FOREIGN KEY (`idParking`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`DAYS`
+-- Table `parquindb`.`DAYS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`DAYS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`DAYS` (
   `idDay` INT NOT NULL,
   `shorDay` VARCHAR(3) NOT NULL,
   `day` VARCHAR(10) NOT NULL,
@@ -208,9 +208,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`SCHEDULES`
+-- Table `parquindb`.`SCHEDULES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`SCHEDULES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`SCHEDULES` (
   `idSchedule` INT NOT NULL,
   `openingTime` TIME NOT NULL,
   `closingTime` TIME NOT NULL,
@@ -220,16 +220,16 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`SCHEDULES` (
   INDEX `fk_SCHEDULES_DAYS1_idx` (`idDay` ASC),
   CONSTRAINT `fk_SCHEDULES_DAYS1`
     FOREIGN KEY (`idDay`)
-    REFERENCES `parkinapp`.`DAYS` (`idDay`)
+    REFERENCES `parquindb`.`DAYS` (`idDay`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PARKINGS_has_PRICES`
+-- Table `parquindb`.`PARKINGS_has_PRICES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS_has_PRICES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PARKINGS_has_PRICES` (
   `idParking` INT NOT NULL,
   `idPrice` INT NOT NULL,
   PRIMARY KEY (`idParking`, `idPrice`),
@@ -237,21 +237,21 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS_has_PRICES` (
   INDEX `fk_PARKINGS_has_PRICES_PARKINGS1_idx` (`idParking` ASC),
   CONSTRAINT `fk_PARKINGS_has_PRICES_PARKINGS1`
     FOREIGN KEY (`idParking`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PARKINGS_has_PRICES_PRICES1`
     FOREIGN KEY (`idPrice`)
-    REFERENCES `parkinapp`.`PRICES` (`idPrice`)
+    REFERENCES `parquindb`.`PRICES` (`idPrice`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PARKINGS_has_SCHEDULES`
+-- Table `parquindb`.`PARKINGS_has_SCHEDULES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS_has_SCHEDULES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PARKINGS_has_SCHEDULES` (
   `idParking` INT NOT NULL,
   `idSchedule` INT NOT NULL,
   PRIMARY KEY (`idParking`, `idSchedule`),
@@ -259,21 +259,21 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`PARKINGS_has_SCHEDULES` (
   INDEX `fk_PARKINGS_has_SCHEDULES_PARKINGS1_idx` (`idParking` ASC),
   CONSTRAINT `fk_PARKINGS_has_SCHEDULES_PARKINGS1`
     FOREIGN KEY (`idParking`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PARKINGS_has_SCHEDULES_SCHEDULES1`
     FOREIGN KEY (`idSchedule`)
-    REFERENCES `parkinapp`.`SCHEDULES` (`idSchedule`)
+    REFERENCES `parquindb`.`SCHEDULES` (`idSchedule`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`STAFF`
+-- Table `parquindb`.`STAFF`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`STAFF` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`STAFF` (
   `idParking` INT NOT NULL,
   `uid` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`idParking`, `uid`),
@@ -281,21 +281,21 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`STAFF` (
   INDEX `fk_PARKINGS_has_USERS_PARKINGS1_idx` (`idParking` ASC),
   CONSTRAINT `fk_PARKINGS_has_USERS_PARKINGS1`
     FOREIGN KEY (`idParking`)
-    REFERENCES `parkinapp`.`PARKINGS` (`idParking`)
+    REFERENCES `parquindb`.`PARKINGS` (`idParking`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PARKINGS_has_USERS_USERS1`
     FOREIGN KEY (`uid`)
-    REFERENCES `parkinapp`.`USERS` (`uid`)
+    REFERENCES `parquindb`.`USERS` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PROVIDERS`
+-- Table `parquindb`.`PROVIDERS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PROVIDERS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PROVIDERS` (
   `idProvider` INT NOT NULL AUTO_INCREMENT,
   `provider` VARCHAR(15) NULL,
   PRIMARY KEY (`idProvider`))
@@ -303,9 +303,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`USERS_has_PROVIDERS`
+-- Table `parquindb`.`USERS_has_PROVIDERS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`USERS_has_PROVIDERS` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`USERS_has_PROVIDERS` (
   `uid` VARCHAR(25) NOT NULL,
   `idProvider` INT NOT NULL,
   PRIMARY KEY (`uid`, `idProvider`),
@@ -313,21 +313,21 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`USERS_has_PROVIDERS` (
   INDEX `fk_USERS_has_PROVIDERS_USERS1_idx` (`uid` ASC),
   CONSTRAINT `fk_USERS_has_PROVIDERS_USERS1`
     FOREIGN KEY (`uid`)
-    REFERENCES `parkinapp`.`USERS` (`uid`)
+    REFERENCES `parquindb`.`USERS` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_USERS_has_PROVIDERS_PROVIDERS1`
     FOREIGN KEY (`idProvider`)
-    REFERENCES `parkinapp`.`PROVIDERS` (`idProvider`)
+    REFERENCES `parquindb`.`PROVIDERS` (`idProvider`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`FEES`
+-- Table `parquindb`.`FEES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`FEES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`FEES` (
   `idFee` INT NOT NULL AUTO_INCREMENT,
   `order` INT NOT NULL,
   `periodDuration` INT NOT NULL DEFAULT 0,
@@ -337,9 +337,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `parkinapp`.`PRICES_has_FEES`
+-- Table `parquindb`.`PRICES_has_FEES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parkinapp`.`PRICES_has_FEES` (
+CREATE TABLE IF NOT EXISTS `parquindb`.`PRICES_has_FEES` (
   `idPrice` INT NOT NULL,
   `idFee` INT NOT NULL,
   PRIMARY KEY (`idPrice`, `idFee`),
@@ -347,12 +347,12 @@ CREATE TABLE IF NOT EXISTS `parkinapp`.`PRICES_has_FEES` (
   INDEX `fk_PRICES_has_FEES_PRICES1_idx` (`idPrice` ASC),
   CONSTRAINT `fk_PRICES_has_FEES_PRICES1`
     FOREIGN KEY (`idPrice`)
-    REFERENCES `parkinapp`.`PRICES` (`idPrice`)
+    REFERENCES `parquindb`.`PRICES` (`idPrice`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_PRICES_has_FEES_FEES1`
     FOREIGN KEY (`idFee`)
-    REFERENCES `parkinapp`.`FEES` (`idFee`)
+    REFERENCES `parquindb`.`FEES` (`idFee`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
